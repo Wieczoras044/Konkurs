@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Konkurs</string>
+    <string name="action_settings">Settings</string>
+  <string name="gender_prompt">Płeć</string>
+  <string-array name="gender">
+    <item>Kobieta</item>
+    <item>Mężczyzna</item>
+  </string-array>
+  <string name="level_prompt">Poziom aktywności</string>
+  <string-array name="level_spiner">
+    <item>Niski</item>
+    <item>Średni</item>
+    <item>Wysoki</item>
+  </string-array>
+</resources>
