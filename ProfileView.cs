@@ -18,7 +18,7 @@ namespace Konkurs
         public int waga_poczatkowa, wzrost, wiek;
 
         public double BMI, Calorie;
-
+        
         public void Profile(int waga_poczatkowa, int wzrost, int wiek, string plec)
         {
             this.waga_poczatkowa = waga_poczatkowa;
