@@ -53,7 +53,7 @@ namespace Konkurs
             string _stopinAktywnosci = dane.GetString("Activity", "Niski");
             ProgressBar CalorieProgressBar = FindViewById<ProgressBar>(Resource.Id.CalorieBar);
             TextView calorie = FindViewById<TextView>(Resource.Id.calorieText);
-            calorie.Text = profile.LiczZapotrzebowanie(_gender, _waga, _wzrost, _wiek, _stopinAktywnosci).ToString();
+            
 
             spinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(spinner_ActivityLevelSelected);
             var adapter = ArrayAdapter.CreateFromResource(
@@ -62,12 +62,31 @@ namespace Konkurs
             adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
             spinner.Adapter = adapter;
 
+            Button dietaButton = FindViewById<Button>(Resource.Id.dieta_button);
+            bool test = dane.GetBoolean("LiczKcal", false);
+            if (test)
+            {
+                string kcal = profile.LiczZapotrzebowanie(_gender, _waga, _wzrost, _wiek, _stopinAktywnosci).ToString();
+                dane.Edit().PutInt("Kcal", int.Parse(kcal));
+                calorie.Text = kcal;
+            }
+            else
+            {
+                calorie.Text = dane.GetString("Kcal", "Błąd");
+            }
+
+            dietaButton.Click += (sender, e) =>
+            {
+                var intent = new Intent(this, typeof(DietaActivity));
+                StartActivity(intent);
+            };
         }
 
         private void spinner_ActivityLevelSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
             Spinner spinner = (Spinner)sender;
             var dane = Application.Context.GetSharedPreferences("Login", FileCreationMode.Private);
+            dane.Edit().PutBoolean("LiczKcal", true);
             dane.Edit().PutString(spinner.GetItemAtPosition(e.Position).ToString(),"Niski");
             TextView calorie = FindViewById<TextView>(Resource.Id.calorieText);
             ProfileView profile = new ProfileView();
